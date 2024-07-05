@@ -12,7 +12,6 @@ cache: node_modules  # кеширование
 install:
   - npm install  
   - npm run build
-  - npm start
 build: off  # отключаем встроенную в appveyor систему сборки
 
 build_script:  # скрипт сборки
