@@ -11,15 +11,14 @@ cache: node_modules  # кеширование
 
 install:
   - npm install  # команда установки зависимостей
-
+  - cd backend
+  - npm install
+  - npm start
 build: off  # отключаем встроенную в appveyor систему сборки
 
 build_script:
   - npm run build   # команда сборки
 
-  -cd backend
-  - npm install
-  - npm start
 
 deploy_script:  # скрипт развёртывания
   - git config --global credential.helper store
