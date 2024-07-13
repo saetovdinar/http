@@ -78,8 +78,8 @@ export default class HelpDesk {
     this.container.addEventListener("click", (event) => {
       if(event.target.classList.contains('ticket_delete')) {  
         this.container.innerHTML += this.ticketForm.createHTMLDeleteForm();
-        
         this.ticketId = event.target.closest('.ticket_cont').dataset.id;
+        this.deleteTicetApi();
       }
     })
   }
@@ -88,7 +88,7 @@ export default class HelpDesk {
       if(event.target.classList.contains('modal_delete_cancel')) {  
         this.container.querySelector('.modal_delete_window').remove();
         
-      
+        
       }
     })
   }
@@ -115,19 +115,6 @@ export default class HelpDesk {
       }
     })
   }
-  deleteTicketListener() {
-    
-    this.container.addEventListener("click",  (event) => {
-      if(event.target.classList.contains('modal_delete_ok_btn')) {  
-       this.ticketService.delete(this.ticketId, createGetRequest)   
-      .then(() => {
-        this.container.innerHTML = `<input  class="add_ticket" type="button" value="Добавить Тикет">`
-        this.renderTickets();
-        this.container.querySelector('.modal_delete_window').remove();
-      })
-      }
-    })
-  }
   editeTicketListener() {
     this.container.addEventListener("click", (event) => {
       event.preventDefault();
@@ -135,25 +122,49 @@ export default class HelpDesk {
         const formName = this.container.querySelector('.edit_modal_name').value;
         const formDescription = this.container.querySelector('.edit_modal_description').value;
         const formObj = {name: formName, description: formDescription};
+        
         this.ticketService.update(this.ticketId, JSON.stringify(formObj), createPostRequest)
         .then((data) => {
           this.container.innerHTML = `<input  class="add_ticket" type="button" value="Добавить Тикет">`
           data.forEach((ticket) => {
             this.container.innerHTML += new TicketView(ticket).createHTML();
           });
-          this.container.querySelector('.edit_modal_window').remove(); 
+ 
         })
       }
     })
   }
+  deleteTicetApi() {
+    this.ticketService.delete(this.ticketId, createGetRequest)
+    .then(() => {
+      this.deleted = true;
+    })
+  }
+  deleteTicketListener() {
+    
+    this.container.addEventListener("click",  (event) => {
+      event.preventDefault();
+      
+      if(event.target.classList.contains('modal_delete_ok_btn')) {  
+          this.container.innerHTML = `<input  class="add_ticket" type="button" value="Добавить Тикет">`
+          this.renderTickets();
+          this.deleted = false;
+      }
+    }
+    )
+  }
+  
+ 
   
   
-  renderTickets() {
+   renderTickets() {
     this.ticketService.list(createGetRequest)
     .then((data) => {
       data.forEach((ticket) => {
         this.container.innerHTML += new TicketView(ticket).createHTML();
-    });
+  
+    })
+    
   }
     )}
 }

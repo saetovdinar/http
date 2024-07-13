@@ -13,7 +13,7 @@ export default class TicketForm {
       <input class="modal_name" type="text"></input>
       <div class="full_description">Подробное описание</div>
       <input class="modal_description" type="text"></input>
-      <input type="submit"  value="ok" class="modal_ok_btn"></input>
+      <input type="button"  value="ok" class="modal_ok_btn"></input>
       <input type="button" value="cancel" class="modal_cancel"></input>
     </form>
     `;
