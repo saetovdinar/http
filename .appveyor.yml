@@ -18,6 +18,7 @@ build_script:  # скрипт сборки
   - npm run build
 
 
+
  
 
 deploy_script:  # скрипт развёртывания
